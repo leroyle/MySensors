@@ -32,7 +32,7 @@ void Bluefruit_printInfo() {}
 static TaskHandle_t  _loopHandle;
 static TaskHandle_t  _customTaskHandle;
 
-lmh_join_status _user_custom_task(void) __attribute__((weak));
+bool _user_custom_task(void) __attribute__((weak));
 void _user_custom_task_init(void) __attribute__((weak));
 volatile bool loopTaskCreated = false;
 
@@ -119,8 +119,8 @@ static void custom_task(void* arg)
   {
     
     if (_user_custom_task) {
-      lmh_join_status joinStat = _user_custom_task(); // Call sketch  task
-      if (joinStat == LMH_SET && loopTaskCreated == false) {
+      bool loraJoined = _user_custom_task(); // Call sketch  task
+      if (loraJoined && loopTaskCreated == false) {
         // joined LoRaWan, start MySensors task
         xTaskCreate( loop_task, "loop", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_loopHandle);
         loopTaskCreated = true;
@@ -152,6 +152,7 @@ int main( void )
   xTaskCreate( custom_task, "customTask", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_customTaskHandle);
 
   // Create a task for loop()
+  // created elsewhere
  // xTaskCreate( loop_task, "loop", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_loopHandle);
 
   // Initialize callback task
