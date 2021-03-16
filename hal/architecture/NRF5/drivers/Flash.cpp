@@ -32,6 +32,8 @@ uint8_t FlashClass::page_size_bits() const
 	return 10;
 #elif defined(NRF52)
 	return 12;
+#else
+	return 0;
 #endif
 }
 

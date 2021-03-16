@@ -32,7 +32,7 @@ void nrf5_pinMode(uint32_t ulPin, uint32_t ulMode)
 		return;
 	}
 
-#ifdef ARDUINO_ARCH_NRF52
+#if defined (ARDUINO_ARCH_NRF52) && ! defined (RAK_WISBLOCK)
 	// Arduino: https://github.com/arduino-org/arduino-core-nrf52
 	ulPin = g_APinDescription[ulPin].ulPin;
 #else

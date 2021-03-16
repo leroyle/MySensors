@@ -260,13 +260,13 @@ void hwSleepPrepare(uint32_t ms)
 			// Set compare register to 1/30.517 µs to guarantee event triggering
 			// A minimum of 2 ticks must be guaranteed
 			// (1000/32768)<<12 == 125
-			MY_HW_RTC->CC[0] = max(((ms << 12) / 125), 2);
+			MY_HW_RTC->CC[0] = max(((ms << 12) / 125), (uint32_t) 2);
 		} else {
 			// 8 Hz -> max 582.542 hours sleep.
 			MY_HW_RTC->PRESCALER = 4095;
 			// Set compare register to 1/125ms
 			// A minimum of 2 ticks must be guaranteed
-			MY_HW_RTC->CC[0] = max((ms / 125), 2);
+			MY_HW_RTC->CC[0] = max((ms / 125), (uint32_t) 2);
 		}
 
 		MY_HW_RTC->INTENSET = RTC_INTENSET_COMPARE0_Msk;

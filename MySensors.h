@@ -440,7 +440,11 @@ MY_DEFAULT_RX_LED_PIN in your sketch instead to enable LEDs
 #elif defined(ARDUINO_ARCH_ESP8266)
 #include "hal/architecture/ESP8266/MyMainESP8266.cpp"
 #elif defined(ARDUINO_ARCH_NRF5)
+#ifdef RAK_WISBLOCK
+#include "hal/architecture/NRF5/MyMainNRF52.cpp"
+#else
 #include "hal/architecture/NRF5/MyMainNRF5.cpp"
+#endif
 #elif defined(ARDUINO_ARCH_ESP32)
 #include "hal/architecture/ESP32/MyMainESP32.cpp"
 #elif defined(__linux__)

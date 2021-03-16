@@ -528,7 +528,11 @@
  * - NRF5_BLE_1MBPS for 1Mbps BLE modulation
  */
 #ifndef MY_NRF5_ESB_MODE
+#ifdef RAK_WISBLOCK
+#define MY_NRF5_ESB_MODE (NRF5_1MBPS)
+#else
 #define MY_NRF5_ESB_MODE (NRF5_250KBPS)
+#endif
 #endif
 
 /**
