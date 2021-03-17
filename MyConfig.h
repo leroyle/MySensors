@@ -2062,7 +2062,7 @@
  * MY_IS_GATEWAY is true when @ref MY_GATEWAY_FEATURE is set.
  * MY_NODE_TYPE contain a string describing the class of sketch/node (gateway/repeater/node).
  */
-#if defined(MY_GATEWAY_SERIAL) || defined(MY_GATEWAY_W5100) || defined(MY_GATEWAY_ENC28J60) || defined(MY_GATEWAY_ESP8266) || defined(MY_GATEWAY_ESP32)|| defined(MY_GATEWAY_LINUX) || defined(MY_GATEWAY_MQTT_CLIENT) || defined(MY_GATEWAY_TINYGSM)
+#if defined(MY_GATEWAY_SERIAL) || defined(MY_GATEWAY_W5100) || defined(MY_GATEWAY_ENC28J60) || defined(MY_GATEWAY_ESP8266) || defined(MY_GATEWAY_ESP32)|| defined(MY_GATEWAY_LINUX) || defined(MY_GATEWAY_MQTT_CLIENT) || defined(MY_GATEWAY_TINYGSM) || defined(MY_GATEWAY_RAK_WISBLOCK)
 #define MY_GATEWAY_FEATURE
 #define MY_IS_GATEWAY (true)
 #define MY_NODE_TYPE "GW"

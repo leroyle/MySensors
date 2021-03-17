@@ -252,6 +252,10 @@ MY_DEFAULT_RX_LED_PIN in your sketch instead to enable LEDs
 #elif defined(MY_GATEWAY_SERIAL)
 // GATEWAY - SERIAL
 #include "core/MyGatewayTransportSerial.cpp"
+#elif defined(RAK_WISBLOCK)
+// GATEWAY - SERIAL
+//#include "core/MyGatewayRAKLoRaWan.cpp"
+#include "core/MyGatewayTransportCustom.cpp"
 #endif
 #endif
 

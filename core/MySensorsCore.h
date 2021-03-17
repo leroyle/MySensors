@@ -424,6 +424,22 @@ void presentation(void)  __attribute__((weak));
 * @brief Called before node initialises
 */
 void before(void) __attribute__((weak));
+
+
+/**
+* LoraWan Support */
+#ifdef MY_GATEWAY_RAK_WISBLOCK
+bool Custom_userTransportSend(MyMessage& message)  __attribute__((weak));
+bool Custom_userTransportConnect(void) __attribute__((weak));
+bool Custom_userTransportInit(void) __attribute__((weak));
+bool Custom_userTransportAvailable(void) __attribute__((weak));
+MyMessage &  Custom_userTransportReceive(void) __attribute__((weak));
+#endif //  RAK_WISBLOCK
+/* End HTTP support */
+
+
+
+
 /**
 * @brief Called before any hwInitialization is done
 */

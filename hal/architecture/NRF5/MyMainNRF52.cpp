@@ -33,7 +33,7 @@ static TaskHandle_t  _loopHandle;
 static TaskHandle_t  _customTaskHandle;
 
 bool _user_custom_task(void) __attribute__((weak));
-void _user_custom_task_init(void) __attribute__((weak));
+bool _user_custom_task_init(void) __attribute__((weak));
 volatile bool loopTaskCreated = false;
 
 // Weak empty variant initialization function.
@@ -47,7 +47,7 @@ void initVariant() { }
 static void loop_task(void* arg)
 {
   (void) arg;
-  uint8_t lal = 1;
+ // uint8_t lal = 1;
 #if CFG_DEBUG
   // If Serial is not begin(), call it to avoid hard fault
   if (!Serial) {
@@ -98,7 +98,7 @@ _begin(); // Startup MySensors library and run sketch begin()
 static void custom_task(void* arg)
 {
   (void) arg;
- uint8_t lal = 1;
+ // uint8_t lal = 1;
 #if CFG_DEBUG
   // If Serial is not begin(), call it to avoid hard fault
   if (!Serial) {
@@ -149,11 +149,11 @@ int main( void )
 #endif
 
   // Create a task for user custom task()
-  xTaskCreate( custom_task, "customTask", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_customTaskHandle);
+  //xTaskCreate( custom_task, "customTask", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_customTaskHandle);
 
   // Create a task for loop()
   // created elsewhere
- // xTaskCreate( loop_task, "loop", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_loopHandle);
+  xTaskCreate( loop_task, "loop", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_loopHandle);
 
   // Initialize callback task
   ada_callback_init(CALLBACK_STACK_SZ);
