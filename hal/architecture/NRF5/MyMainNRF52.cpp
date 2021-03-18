@@ -32,9 +32,9 @@ void Bluefruit_printInfo() {}
 static TaskHandle_t  _loopHandle;
 static TaskHandle_t  _customTaskHandle;
 
-bool _user_custom_task(void) __attribute__((weak));
-bool _user_custom_task_init(void) __attribute__((weak));
-volatile bool loopTaskCreated = false;
+// bool _user_custom_task(void) __attribute__((weak));
+// bool _user_custom_task_init(void) __attribute__((weak));
+// volatile bool loopTaskCreated = false;
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
@@ -95,44 +95,44 @@ _begin(); // Startup MySensors library and run sketch begin()
   }
 }
 
-static void custom_task(void* arg)
-{
-  (void) arg;
- // uint8_t lal = 1;
-#if CFG_DEBUG
-  // If Serial is not begin(), call it to avoid hard fault
-  if (!Serial) {
-    Serial.begin(115200);
-    // Wait for Serial connection in debug mode
-    while ( !Serial ) yield();
-    //while (!Serial.availableForWrite()) {}
-  }
+// static void custom_task(void* arg)
+// {
+//   (void) arg;
+//  // uint8_t lal = 1;
+// #if CFG_DEBUG
+//   // If Serial is not begin(), call it to avoid hard fault
+//   if (!Serial) {
+//     Serial.begin(115200);
+//     // Wait for Serial connection in debug mode
+//     while ( !Serial ) yield();
+//     //while (!Serial.availableForWrite()) {}
+//   }
 
-  Serial.println("\nstarting Lora task");
+//   Serial.println("\nstarting Lora task");
   
-#endif
-  if (_user_custom_task_init) {
-      _user_custom_task_init(); // Call sketch  task
-  }
+// #endif
+//   if (_user_custom_task_init) {
+//       _user_custom_task_init(); // Call sketch  task
+//   }
 
-  while (1)
-  {
+//   while (1)
+//   {
     
-    if (_user_custom_task) {
-      bool loraJoined = _user_custom_task(); // Call sketch  task
-      if (loraJoined && loopTaskCreated == false) {
-        // joined LoRaWan, start MySensors task
-        xTaskCreate( loop_task, "loop", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_loopHandle);
-        loopTaskCreated = true;
-      }
-    }
-    // if (serialEventRun) {
-    //   serialEventRun();
-    // }
+//     if (_user_custom_task) {
+//       bool loraJoined = _user_custom_task(); // Call sketch  task
+//       if (loraJoined && loopTaskCreated == false) {
+//         // joined LoRaWan, start MySensors task
+//         xTaskCreate( loop_task, "loop", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_loopHandle);
+//         loopTaskCreated = true;
+//       }
+//     }
+//     // if (serialEventRun) {
+//     //   serialEventRun();
+//     // }
 
-    yield(); // yield to run other task
-  }
-}
+//     yield(); // yield to run other task
+//   }
+// }
 
 // \brief Main entry point of Arduino application
 int main( void )
