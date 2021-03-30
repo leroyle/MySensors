@@ -441,6 +441,13 @@
 /** @}*/ // End of RF24SettingGrpPub group
 
 /**
+ * @def RAK_WISBLOCK
+ * @brief 
+ *  RAK Wireless WisBlock is based on NRF52 but there are a 
+ *  couple of differences in the hal/architecture layer 
+ */
+
+/**
  * @defgroup NRF5SettingGrpPub nRF5
  * @ingroup RadioSettingGrpPub
  * @brief These options are specific to the nRF5 (with Enhanced ShockBurst) family of wireless
@@ -527,11 +534,20 @@
  * - NRF5_2MBPS for 2Mbps.
  * - NRF5_BLE_1MBPS for 1Mbps BLE modulation
  */
-#ifndef MY_NRF5_ESB_MODE
-#ifdef RAK_WISBLOCK
+
+// #ifdef 
+// #define RAK_WISBLOCK
+// #endif
+// TODO Understand these RAK defines better
+#ifdef MY_GATEWAY_RAK_WISBLOCK
+#define RAK_WISBLOCK
 #define MY_NRF5_ESB_MODE (NRF5_1MBPS)
 #else
-#define MY_NRF5_ESB_MODE (NRF5_250KBPS)
+#define RAK_WISBLOCK
+#ifndef MY_NRF5_ESB_MODE
+
+//#define MY_NRF5_ESB_MODE (NRF5_250KBPS)
+#define MY_NRF5_ESB_MODE (NRF5_1MBPS)
 #endif
 #endif
 

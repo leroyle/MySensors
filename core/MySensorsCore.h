@@ -434,7 +434,7 @@ bool Custom_userTransportConnect(void) __attribute__((weak));
 bool Custom_userTransportInit(void) __attribute__((weak));
 bool Custom_userTransportAvailable(void) __attribute__((weak));
 MyMessage &  Custom_userTransportReceive(void) __attribute__((weak));
-#endif //  RAK_WISBLOCK
+#endif //  MY_GATEWAY_RAK_WISBLOCK
 /* End HTTP support */
 
 

@@ -252,11 +252,10 @@ MY_DEFAULT_RX_LED_PIN in your sketch instead to enable LEDs
 #elif defined(MY_GATEWAY_SERIAL)
 // GATEWAY - SERIAL
 #include "core/MyGatewayTransportSerial.cpp"
-#elif defined(RAK_WISBLOCK)
-// GATEWAY - SERIAL
-//#include "core/MyGatewayRAKLoRaWan.cpp"
+#elif defined(MY_GATEWAY_RAK_WISBLOCK)
+// GATEWAY - WisBlock LoRaWan
 #include "core/MyGatewayTransportCustom.cpp"
-#endif
+#endif   // MY_GATEWAY_RAK_WISBLOCK
 #endif
 
 // TRANSPORT
@@ -444,7 +443,8 @@ MY_DEFAULT_RX_LED_PIN in your sketch instead to enable LEDs
 #elif defined(ARDUINO_ARCH_ESP8266)
 #include "hal/architecture/ESP8266/MyMainESP8266.cpp"
 #elif defined(ARDUINO_ARCH_NRF5)
-#ifdef RAK_WISBLOCK
+#ifdef MY_GATEWAY_RAK_WISBLOCK
+// WisBlock LoRaWan
 #include "hal/architecture/NRF5/MyMainNRF52.cpp"
 #else
 #include "hal/architecture/NRF5/MyMainNRF5.cpp"
