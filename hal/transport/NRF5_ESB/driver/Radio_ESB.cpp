@@ -63,7 +63,7 @@ static int8_t tx_power_level = (MY_NRF5_ESB_PA_LEVEL << RADIO_TXPOWER_TXPOWER_Po
 static bool NRF5_ESB_initialize()
 {
 	NRF5_RADIO_DEBUG(PSTR("NRF5:INIT:ESB\n"));
-
+	NRF5_RADIO_DEBUG(PSTR("NRF5:INIT:ESB Speed:%" PRIu8 " \n"), MY_NRF5_ESB_MODE);
 #if defined(SOFTDEVICE_PRESENT)
 	// Disable the SoftDevice; requires NRF5 SDK available
 	sd_softdevice_disable();
