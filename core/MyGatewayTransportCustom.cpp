@@ -17,15 +17,16 @@
 * version 2 as published by the Free Software Foundation.
 */
 
-
 // Topic structure: MY_MQTT_PUBLISH_TOPIC_PREFIX/NODE-ID/SENSOR-ID/CMD-TYPE/ACK-FLAG/SUB-TYPE
 // #include "MyConfig.h"
 // #include "MyProtocol.h"
 
 #include "MyGatewayTransport.h"
+// global variables
+extern MyMessage _msgTmp;
+
 // #include "MyMessage.h"
 // #include "MyProtocol.h"
-
 
 // #if defined MY_HTTP_SERVER_IP_ADDRESS
 // IPAddress _httpServer(MY_CONTROLLER_IP_ADDRESS);
@@ -47,15 +48,14 @@
 // #endif /* End of MY_IP_SUBNET_ADDRESS */
 // #endif /* End of MY_IP_ADDRESS */
 
-
 static bool _Custom_connecting = true;
 static bool _Custom_available = false;
 static MyMessage _Custom_msg;
 
-bool gatewayTransportSend(MyMessage& message)
+bool gatewayTransportSend(MyMessage &message)
 {
 	GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPS:Send...\n"));
-	if(Custom_userTransportSend)
+	if (Custom_userTransportSend)
 	{
 		Serial.println("Calling user transport Send");
 		Serial.flush();
@@ -65,14 +65,13 @@ bool gatewayTransportSend(MyMessage& message)
 	{
 		GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPS: API error: user supplied Custom_userTransportSend() is not defined\n"));
 		Serial.println("Custom Send user API not found");
-	}	
+	}
 
 	return false;
 }
 
-void incomingCustom(char* topic, uint8_t* payload, unsigned int length)
+void incomingCustom(char *topic, uint8_t *payload, unsigned int length)
 {
-
 }
 
 bool reconnectCustom(void)
@@ -83,7 +82,7 @@ bool reconnectCustom(void)
 bool gatewayTransportConnect(void)
 {
 	GATEWAY_DEBUG(PSTR("GWT:CUSTOM:CONNECTING...\n"));
-	if(Custom_userTransportConnect)
+	if (Custom_userTransportConnect)
 	{
 		return Custom_userTransportConnect();
 	}
@@ -99,7 +98,7 @@ bool gatewayTransportInit(void)
 	GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPI:INIT...\n"));
 	bool transInit = false;
 
-	if(Custom_userTransportInit)
+	if (Custom_userTransportInit)
 	{
 
 		transInit = Custom_userTransportInit();
@@ -112,7 +111,7 @@ bool gatewayTransportInit(void)
 		gatewayTransportConnect();
 
 		(void)gatewayTransportSend(buildGw(_msgTmp, I_GATEWAY_READY).set(MSG_GW_STARTUP_COMPLETE));
-		        // Send presentation of locally attached sensors (and node if applicable)
+		// Send presentation of locally attached sensors (and node if applicable)
 		presentNode();
 		return true;
 	}
@@ -122,7 +121,6 @@ bool gatewayTransportInit(void)
 		return false;
 	}
 
-
 	_Custom_connecting = false;
 	return true;
 }
@@ -130,12 +128,11 @@ bool gatewayTransportInit(void)
 bool gatewayTransportAvailable(void)
 {
 	//GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPA:Available...\n"));
-	if(Custom_userTransportAvailable)
+	if (Custom_userTransportAvailable)
 	{
 		return Custom_userTransportAvailable();
-	
 	}
-	else
+		else
 	{
 		GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPA: API error: user supplied Custom_userTransportAvailable() is not defined\n"));
 		return false;
@@ -146,10 +143,10 @@ bool gatewayTransportAvailable(void)
 	return false; //_Custom_available;
 }
 
-MyMessage & gatewayTransportReceive(void)
+MyMessage &gatewayTransportReceive(void)
 {
 	GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPR:Receive...\n"));
-	if(Custom_userTransportReceive)
+	if (Custom_userTransportReceive)
 	{
 		return Custom_userTransportReceive();
 	}

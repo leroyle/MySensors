@@ -33,9 +33,6 @@ void Bluefruit_printInfo() {}
 static TaskHandle_t  _loopHandle;
 static TaskHandle_t  _customTaskHandle;
 
-// for Ring Buffer
-SemaphoreHandle_t mutex_ringBuff;
-
 // bool _user_custom_task(void) __attribute__((weak));
 // bool _user_custom_task_init(void) __attribute__((weak));
 // volatile bool loopTaskCreated = false;
@@ -151,12 +148,6 @@ int main( void )
 #if CFG_DEBUG >= 3
   SEGGER_SYSVIEW_Conf();
 #endif
-
-// for Ring Buffer
-  if (mutex_ringBuff == NULL)
-  {
-      mutex_ringBuff = xSemaphoreCreateMutex();
-  }
 
   // Create a task for user custom task()
   //xTaskCreate( custom_task, "customTask", LOOP_STACK_SZ, NULL, TASK_PRIO_LOW, &_customTaskHandle);
