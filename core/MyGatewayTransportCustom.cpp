@@ -57,14 +57,13 @@ bool gatewayTransportSend(MyMessage &message)
 	GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPS:Send...\n"));
 	if (Custom_userTransportSend)
 	{
-		Serial.println("Calling user transport Send");
-		Serial.flush();
+		GATEWAY_DEBUG(PSTR("Calling user transport Send"));
 		return Custom_userTransportSend(message);
 	}
 	else
 	{
 		GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPS: API error: user supplied Custom_userTransportSend() is not defined\n"));
-		Serial.println("Custom Send user API not found");
+		GATEWAY_DEBUG(PSTR("Custom Send user API not found"));
 	}
 
 	return false;
@@ -104,10 +103,10 @@ bool gatewayTransportInit(void)
 		transInit = Custom_userTransportInit();
 		if (!transInit)
 		{
-			Serial.println("TransportInit: failed");
+			GATEWAY_DEBUG(PSTR("TransportInit: failed"));
 			return false;
 		}
-		Serial.println("TransportInit: success");
+		GATEWAY_DEBUG(PSTR("TransportInit: success"));
 		gatewayTransportConnect();
 
 		(void)gatewayTransportSend(buildGw(_msgTmp, I_GATEWAY_READY).set(MSG_GW_STARTUP_COMPLETE));

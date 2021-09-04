@@ -57,14 +57,12 @@ bool gatewayTransportSend(MyMessage& message)
 	GATEWAY_DEBUG(PSTR("GWT:HTTP:TPS:Send...\n"));
 	if(LoRaWan_userTransportSend)
 	{
-		Serial.println("Calling user transport Send");
-		Serial.flush();
+		GATEWAY_DEBUG(PSTR("Calling user transport Send"));
 		return LoRaWan_userTransportSend(message);
 	}
 	else
 	{
 		GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPS: API error: user supplied LoRaWan_userTransportSend() is not defined\n"));
-		Serial.println("LoRaWan Send user API not found");
 	}	
 
 	return false;
@@ -105,10 +103,10 @@ bool gatewayTransportInit(void)
 		transInit = LoRaWan_userTransportInit();
 		if (!transInit)
 		{
-			Serial.println("TransportInit: failed");
+			GATEWAY_DEBUG(PSTR("TransportInit: failed"));
 			return false;
 		}
-		Serial.println("TransportInit: success");
+		GATEWAY_DEBUG(PSTR("TransportInit: success"));
 		gatewayTransportConnect();
 
 		(void)gatewayTransportSend(buildGw(_msgTmp, I_GATEWAY_READY).set(MSG_GW_STARTUP_COMPLETE));

@@ -26,7 +26,7 @@ void Bluefruit_printInfo() {}
 #endif
 
 // DEBUG Level 3
-#if CFG_DEBUG >= 3
+#if CFG_SYSVIEW
 #include "SEGGER_SYSVIEW.h"
 #endif
 
@@ -57,7 +57,7 @@ static void loop_task(void* arg)
     while ( !Serial ) yield();
   }
 
-  Serial.println("\nstarting Loop task");
+  LOG_LV1("loop_task", "\nstarting Loop task\n");
 
   dbgPrintVersion();
 #endif
@@ -89,7 +89,7 @@ _begin(); // Startup MySensors library and run sketch begin()
     loop();
 #endif
 
-    yield(); // yield to run other task
+    //yield(); // yield to run other task
 
     // Serial events
     if (serialEvent && serialEventRun) serialEventRun();
@@ -134,19 +134,18 @@ _begin(); // Startup MySensors library and run sketch begin()
 //     yield(); // yield to run other task
 //   }
 // }
-
 // \brief Main entry point of Arduino application
 int main( void )
 {
   init();
   initVariant();
 
-#ifdef USE_TINYUSB
-  Adafruit_TinyUSB_Core_init();
+#if CFG_SYSVIEW
+  SEGGER_SYSVIEW_Conf();
 #endif
 
-#if CFG_DEBUG >= 3
-  SEGGER_SYSVIEW_Conf();
+#ifdef USE_TINYUSB
+  Adafruit_TinyUSB_Core_init();
 #endif
 
   // Create a task for user custom task()
