@@ -145,7 +145,7 @@ int main( void )
 #endif
 
 #ifdef USE_TINYUSB
-  Adafruit_TinyUSB_Core_init();
+  TinyUSB_Device_Init(0);
 #endif
 
   // Create a task for user custom task()
