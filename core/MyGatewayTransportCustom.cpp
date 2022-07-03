@@ -57,7 +57,7 @@ bool gatewayTransportSend(MyMessage &message)
 	GATEWAY_DEBUG(PSTR("GWT:CUSTOM:TPS:Send...\n"));
 	if (Custom_userTransportSend)
 	{
-		GATEWAY_DEBUG(PSTR("Calling user transport Send"));
+		GATEWAY_DEBUG(PSTR("Calling user transport Send\r\n"));
 		return Custom_userTransportSend(message);
 	}
 	else
@@ -106,7 +106,7 @@ bool gatewayTransportInit(void)
 			GATEWAY_DEBUG(PSTR("TransportInit: failed"));
 			return false;
 		}
-		GATEWAY_DEBUG(PSTR("TransportInit: success"));
+		GATEWAY_DEBUG(PSTR("TransportInit: success\r\n"));
 		gatewayTransportConnect();
 
 		(void)gatewayTransportSend(buildGw(_msgTmp, I_GATEWAY_READY).set(MSG_GW_STARTUP_COMPLETE));

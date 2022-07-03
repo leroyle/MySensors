@@ -48,7 +48,7 @@ void initVariant() { }
 static void loop_task(void* arg)
 {
   (void) arg;
- // uint8_t lal = 1;
+
 #if CFG_DEBUG
   // If Serial is not begin(), call it to avoid hard fault
   if (!Serial) {
@@ -56,13 +56,13 @@ static void loop_task(void* arg)
     // Wait for Serial connection in debug mode
     while ( !Serial ) yield();
   }
-
-  LOG_LV1("loop_task", "\nstarting Loop task\n");
+  // delay(500);
+  LOG_LV1("\nloop_task", "starting Loop task\n");
 
   dbgPrintVersion();
 #endif
 
-#ifdef NRF52_LAL
+#ifndef UNIT_TEST
 _begin(); // Startup MySensors library and run sketch begin()
 #else
   setup();
@@ -75,7 +75,8 @@ _begin(); // Startup MySensors library and run sketch begin()
   while (1)
   {
 
-#ifdef NRF52_LAL
+
+#ifndef UNIT_TEST
     // run MySensors stuff
     _process();  // Process incoming data
     if (loop) {
@@ -135,6 +136,8 @@ _begin(); // Startup MySensors library and run sketch begin()
 //   }
 // }
 // \brief Main entry point of Arduino application
+
+
 int main( void )
 {
   init();
@@ -192,4 +195,3 @@ int _write (int fd, const void *buf, size_t count)
 }
 
 }
-

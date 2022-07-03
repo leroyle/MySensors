@@ -18,35 +18,7 @@
 */
 
 
-// Topic structure: MY_MQTT_PUBLISH_TOPIC_PREFIX/NODE-ID/SENSOR-ID/CMD-TYPE/ACK-FLAG/SUB-TYPE
-// #include "MyConfig.h"
-// #include "MyProtocol.h"
-
 #include "MyGatewayTransport.h"
-// #include "MyMessage.h"
-// #include "MyProtocol.h"
-
-
-// #if defined MY_HTTP_SERVER_IP_ADDRESS
-// IPAddress _httpServer(MY_CONTROLLER_IP_ADDRESS);
-// #endif
-
-// #if defined(MY_IP_ADDRESS)
-// IPAddress _httpGatewayIP(MY_IP_ADDRESS);
-// #if defined(MY_IP_GATEWAY_ADDRESS)
-// IPAddress _gatewayIp(MY_IP_GATEWAY_ADDRESS);
-// #elif defined(MY_GATEWAY_ESP8266) /* Elif part of MY_IP_GATEWAY_ADDRESS */
-// // Assume the gateway will be the machine on the same network as the local IP
-// // but with last octet being '1'
-// IPAddress _gatewayIp(_HTTP_serverIp[0], _HTTP_serverIp[1], _HTTP_serverIp[2], 1);
-// #endif /* End of MY_IP_GATEWAY_ADDRESS */
-// #if defined(MY_IP_SUBNET_ADDRESS)
-// IPAddress _subnetIp(MY_IP_SUBNET_ADDRESS);
-// #elif defined(MY_GATEWAY_ESP8266) /* Elif part of MY_IP_SUBNET_ADDRESS */
-// IPAddress _subnetIp(255, 255, 255, 0);
-// #endif /* End of MY_IP_SUBNET_ADDRESS */
-// #endif /* End of MY_IP_ADDRESS */
-
 
 static bool _LoRaWan_connecting = true;
 static bool _LoRaWan_available = false;
@@ -54,15 +26,14 @@ static MyMessage _LoRaWan_msg;
 
 bool gatewayTransportSend(MyMessage& message)
 {
-	GATEWAY_DEBUG(PSTR("GWT:HTTP:TPS:Send...\n"));
+	GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPS:Send...\n"));
 	if(LoRaWan_userTransportSend)
 	{
-		GATEWAY_DEBUG(PSTR("Calling user transport Send"));
 		return LoRaWan_userTransportSend(message);
 	}
 	else
 	{
-		GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPS: API error: user supplied LoRaWan_userTransportSend() is not defined\n"));
+		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPS: API error: user supplied LoRaWan_userTransportSend() is not defined\n"));
 	}	
 
 	return false;
@@ -80,21 +51,21 @@ bool reconnectLoRaWan(void)
 
 bool gatewayTransportConnect(void)
 {
-	GATEWAY_DEBUG(PSTR("GWT:LORAWAN:CONNECTING...\n"));
+	GATEWAY_DEBUG(PSTR("GWT:LoRaWan:CONNECTING...\n"));
 	if(LoRaWan_userTransportConnect)
 	{
 		return LoRaWan_userTransportConnect();
 	}
 	else
 	{
-		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPC: API error: user supplied HTTP_userTransportConnect() is not defined\n"));
+		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPC: API error: user supplied LoRaWan_userTransportConnect() is not defined\n"));
 	}
 	return false;
 }
 
 bool gatewayTransportInit(void)
 {
-	GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPI:INIT...\n"));
+	GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPI:INIT...\n"));
 	bool transInit = false;
 
 	if(LoRaWan_userTransportInit)
@@ -103,20 +74,20 @@ bool gatewayTransportInit(void)
 		transInit = LoRaWan_userTransportInit();
 		if (!transInit)
 		{
-			GATEWAY_DEBUG(PSTR("TransportInit: failed"));
+			GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TransportInit: failed"));
 			return false;
 		}
-		GATEWAY_DEBUG(PSTR("TransportInit: success"));
+		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TransportInit: success"));
 		gatewayTransportConnect();
 
 		(void)gatewayTransportSend(buildGw(_msgTmp, I_GATEWAY_READY).set(MSG_GW_STARTUP_COMPLETE));
-		        // Send presentation of locally attached sensors (and node if applicable)
+	        // Send presentation of locally attached sensors (and node if applicable)
 		presentNode();
 		return true;
 	}
 	else
 	{
-		GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPI: API error: user supplied HTTP_userTransportInit() is not defined\n"));
+		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPI: API error: user supplied LoRaWan_userTransportInit() is not defined\n"));
 		return false;
 	}
 
@@ -127,7 +98,7 @@ bool gatewayTransportInit(void)
 
 bool gatewayTransportAvailable(void)
 {
-	//GATEWAY_DEBUG(PSTR("GWT:HTTP:TPA:Available...\n"));
+	//GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPA:Available...\n"));
 	if(LoRaWan_userTransportAvailable)
 	{
 		return LoRaWan_userTransportAvailable();
@@ -135,7 +106,7 @@ bool gatewayTransportAvailable(void)
 	}
 	else
 	{
-		GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPA: API error: user supplied HTTP_userTransportAvailable() is not defined\n"));
+		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPA: API error: user supplied LoRaWan_userTransportAvailable() is not defined\n"));
 		return false;
 	}
 
@@ -146,14 +117,14 @@ bool gatewayTransportAvailable(void)
 
 MyMessage & gatewayTransportReceive(void)
 {
-	GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPR:Receive...\n"));
+	GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPR:Receive...\n"));
 	if(LoRaWan_userTransportReceive)
 	{
 		return LoRaWan_userTransportReceive();
 	}
 	else
 	{
-		GATEWAY_DEBUG(PSTR("GWT:LORAWAN:TPR: API error: user supplied HTTP_userTransportReceive() is not defined\n"));
+		GATEWAY_DEBUG(PSTR("GWT:LoRaWan:TPR: API error: user supplied LoRaWan_userTransportReceive() is not defined\n"));
 		_LoRaWan_available = false;
 		return _LoRaWan_msg;
 	}
