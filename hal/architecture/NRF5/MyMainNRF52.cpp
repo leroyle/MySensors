@@ -16,6 +16,7 @@
 #define ARDUINO_MAIN
 #include "Arduino.h"
 #include "semphr.h"
+#include "Adafruit_TinyUSB.h"
 
 // DEBUG Level 1
 #if CFG_DEBUG
@@ -138,6 +139,10 @@ _begin(); // Startup MySensors library and run sketch begin()
 // \brief Main entry point of Arduino application
 
 
+extern "C" {
+ 	void  TinyUSB_Device_Init_LAL1(uint8_t);
+}
+	
 int main( void )
 {
   init();
@@ -149,6 +154,7 @@ int main( void )
 
 #ifdef USE_TINYUSB
   TinyUSB_Device_Init(0);
+  TinyUSB_Device_Init_LAL1(0);
 #endif
 
   // Create a task for user custom task()
