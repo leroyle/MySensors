@@ -443,7 +443,7 @@ MY_DEFAULT_RX_LED_PIN in your sketch instead to enable LEDs
 #elif defined(ARDUINO_ARCH_ESP8266)
 #include "hal/architecture/ESP8266/MyMainESP8266.cpp"
 #elif defined(ARDUINO_ARCH_NRF5)
-#if defined(WISBLOCK_4631) || defined(SEEED_XIAO_NRF52840_SENSE)
+#if defined(WISBLOCK_4631) || defined(SEEED_XIAO_NRF52840_SENSE) || defined(SEEED_XIAO_NRF52840)
 // WisBlock LoRaWan
 #include "hal/architecture/NRF5/MyMainNRF52.cpp"
 #else
